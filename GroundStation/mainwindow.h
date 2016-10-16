@@ -25,8 +25,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QSerialPort *serialPort;
-    bool connected;
-
 };
 
 #endif // MAINWINDOW_H

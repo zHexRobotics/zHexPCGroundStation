@@ -7,7 +7,6 @@ MainWindow::MainWindow(QWidget *parent) :
     serialPort(new QSerialPort)
 {
     ui->setupUi(this);
-    connected = false;
     serialPort->setBaudRate(QSerialPort::Baud9600);
     serialPort->setDataBits(QSerialPort::Data8);
     serialPort->setParity(QSerialPort::NoParity);
@@ -44,10 +43,9 @@ void MainWindow::on_btnFind_clicked()
 
 void MainWindow::on_btnConnect_clicked()
 {
-    if (connected)
+    if (serialPort->isOpen())
     {
         serialPort->close();
-        connected = false;
         ui->teLog->appendHtml("<font color=red>Disconnected.</font>");
         ui->btnConnect->setText("Connect");
     }
@@ -63,7 +61,6 @@ void MainWindow::on_btnConnect_clicked()
             serialPort->open(QIODevice::ReadWrite);
             if (serialPort->isOpen())
             {
-                connected = true;
                 ui->teLog->appendHtml("<font color=green>Connected to " + serialPort->portName() + ".</font>");
                 ui->btnConnect->setText("Disconnect");
             }
