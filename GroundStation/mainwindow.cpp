@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
     serialPort->setDataBits(QSerialPort::Data8);
     serialPort->setParity(QSerialPort::NoParity);
     serialPort->setStopBits(QSerialPort::OneStop);
+
+    connect(serialPort, &QSerialPort::readyRead, this, &MainWindow::on_serial_rcv);
 }
 
 
@@ -73,3 +75,26 @@ void MainWindow::on_btnConnect_clicked()
 }
 
 
+void MainWindow::on_serial_rcv()
+{
+    serialBuffer += serialPort->readAll().toStdString().c_str();
+    QStringList packets = QString::fromStdString(serialBuffer.toStdString()).split('\n');
+    if (packets.length() > 1)
+    {
+        packetBuffer += packets.at(0);
+        serialBuffer = packets.at(1);
+    }
+    QStringList packet = packetBuffer.split(" ");
+
+    if (packet.size() > Radio::PacketSize)
+    {
+        ui->teLog->appendHtml("<font color=red>Received bad packet with size " + QString::fromStdString(std::to_string(packet.length())) + ".</font>");
+        packetBuffer.clear();
+    }
+    else if (packet.size() == Radio::PacketSize)
+    {
+        ui->teLog->appendHtml("<font color=blue>Received packet: {</font><font color=black>" + packetBuffer + "</font><font color=blue>} Size " + QString::fromStdString(std::to_string(packet.length())) + ".</font>");
+        packetBuffer.clear();
+        packet.clear();
+    }
+}

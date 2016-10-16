@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>436</width>
+    <width>1352</width>
     <height>376</height>
    </rect>
   </property>
@@ -89,7 +89,11 @@
       <property name="title">
        <string>GroupBox</string>
       </property>
-      <zorder>groupBox</zorder>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QPlainTextEdit" name="tePackets"/>
+       </item>
+      </layout>
      </widget>
     </item>
     <item row="0" column="1" rowspan="2">
@@ -111,7 +115,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>436</width>
+     <width>1352</width>
      <height>21</height>
     </rect>
    </property>

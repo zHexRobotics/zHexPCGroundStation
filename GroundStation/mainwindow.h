@@ -5,6 +5,10 @@
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 
+namespace Radio {
+ const int PacketSize = 32;
+}
+
 namespace Ui {
 class MainWindow;
 }
@@ -22,9 +26,13 @@ private slots:
 
     void on_btnConnect_clicked();
 
+    void on_serial_rcv();
+
 private:
     Ui::MainWindow *ui;
     QSerialPort *serialPort;
+    QString serialBuffer;
+    QString packetBuffer;
 };
 
 #endif // MAINWINDOW_H
